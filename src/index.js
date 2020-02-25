@@ -61,6 +61,7 @@ function renderComment(comment) {
 
   const deleteButton = document.createElement('button')
   deleteButton.innerText = 'Delete'
+  
   deleteButton.addEventListener('click', function(e){
     deleteComment(e)
   })
@@ -96,6 +97,7 @@ function makeComment(e) {
   let content = e.target.comment.value
 
   e.target.comment.value = ''
+
   const data = {
     image_id: imageId,
     content: content
