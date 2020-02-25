@@ -144,9 +144,9 @@ Since we are using optimistic rendering, you shouldn't have to do anything with 
 
 To test your code, make sure the number of likes increments when you click the like button. Then, refresh the page and make sure the increased number of likes remains the same.
 
----
+--- -->
 
-## Step 4 - Comment Feature (Frontend)
+ ## Step 4 - Comment Feature (Frontend)
 
 The next feature to approach is the functionality to add comments to a picture. First, get this working in the browser only, without worrying about persistence.
 
@@ -154,7 +154,7 @@ Filling out the input and clicking 'Submit' should append your new comment as an
 
 ## Step 5 - Comment Feature (Backend)
 
-As before, we need to persist the comment to the database, after optimistically rendering a comment.
+As before, we need to persist the comment to the database, after optimistically rendering a comment. -->
 
 #### API Docs
 
