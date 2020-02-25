@@ -27,8 +27,8 @@ function getImage() {
   .then((response) => {
     return response.json();
   })
-  .then((myJson) => {
-    renderImage(myJson);
+  .then((image) => {
+    renderImage(image);
   });
 }
 
@@ -50,7 +50,8 @@ function renderImage(image) {
   })
 
   image.comments.forEach( function(comment){
-    renderComment(comment.content)
+    let commentLi = renderComment(comment.content)
+    commentLi.dataset.id = comment.id
   })
 }
 
@@ -58,7 +59,17 @@ function renderComment(comment) {
   const commentListItem = document.createElement('li')
   commentListItem.innerText = comment
 
+  const deleteButton = document.createElement('button')
+  deleteButton.innerText = 'Delete'
+  deleteButton.addEventListener('click', function(e){
+    deleteComment(e)
+  })
+
+  commentListItem.appendChild(deleteButton)
+
   commentCont.appendChild(commentListItem)
+
+  return commentListItem
 }
 
 function addLike(e) {
@@ -98,4 +109,29 @@ function makeComment(e) {
   }
 
   fetch(commentsURL, dataObj)
+  .then((response) => {
+    return response.json();
+  })
+  .then((comment) => {
+    commentCont.lastChild.dataset.id = comment.id
+  });
+}
+
+function deleteComment(e) {
+  dataObj = {
+    method: 'DELETE',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }
+  const deleteURL = commentsURL + '/' + e.target.parentElement.dataset.id
+
+  fetch(deleteURL, dataObj)
+  .then((response) => {
+    return response.json();
+  })
+  .then((comment) => {
+    e.target.parentElement.remove()
+  })
 }
