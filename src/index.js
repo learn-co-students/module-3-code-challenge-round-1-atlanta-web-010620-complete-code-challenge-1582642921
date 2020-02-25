@@ -93,10 +93,12 @@ function addLike(e) {
 
 function makeComment(e) {
   renderComment(e.target.comment.value)
+  let content = e.target.comment.value
 
+  e.target.comment.value = ''
   const data = {
     image_id: imageId,
-    content: e.target.comment.value
+    content: content
   }
 
   let dataObj = {

@@ -146,7 +146,7 @@ To test your code, make sure the number of likes increments when you click the l
 
 --- -->
 
-<!-- ## Step 4 - Comment Feature (Frontend)
+ ## Step 4 - Comment Feature (Frontend)
 
 The next feature to approach is the functionality to add comments to a picture. First, get this working in the browser only, without worrying about persistence.
 
@@ -156,7 +156,7 @@ Filling out the input and clicking 'Submit' should append your new comment as an
 
 As before, we need to persist the comment to the database, after optimistically rendering a comment. -->
 
-<!-- #### API Docs
+#### API Docs
 
 #### Endpoint to create a Comment
 
