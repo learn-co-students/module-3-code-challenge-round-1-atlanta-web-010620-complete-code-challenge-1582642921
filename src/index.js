@@ -3,6 +3,7 @@ let imageId = 4637 //Enter the id from the fetched image here
 const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
 const likeURL = `https://randopic.herokuapp.com/likes/`
 const commentsURL = `https://randopic.herokuapp.com/comments/`
+const deleteURL = `https://randopic.herokuapp.com/comments/`
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -28,9 +29,13 @@ function renderImageData(url){
     imageName.innerText = returnedImage.name; 
     imageLikes.innerText = returnedImage.like_count;
     returnedImage.comments.forEach(function(comment){
-      const newLi = document.createElement('li'); 
-      newLi.innerText = comment.content; 
-      commentList.appendChild(newLi); 
+      // const newLi = document.createElement('li'); 
+      // newLi.innerText = comment.content; 
+      // const deleteCommentBtn = document.createElement('button'); 
+      // deleteCommentBtn.innerText = "Delete"; 
+
+      // commentList.appendChild(newLi); 
+      renderComment(comment); 
     })
   })
 }
@@ -89,4 +94,30 @@ function commentSubmit(){
     // clear comment box for next comment 
     commentBox.value = ""
   })
+}
+
+function renderComment(comment){
+  debugger
+  const commentList = document.querySelector("#comments"); 
+  const newLi = document.createElement('li'); 
+  newLi.innerText = comment.content; 
+  const deleteCommentBtn = document.createElement('button'); 
+  deleteCommentBtn.innerText = "Delete"; 
+  deleteCommentBtn.dataset.id = comment.id;
+  deleteCommentBtn.addEventListener('click', function(e){
+    // erase from database 
+    fetch(`${deleteURL}${parseInt(this.dataset.id)}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(resp => resp.json())
+    // verify comment was destroyed
+    .then(json=>console.log(json))
+    .then(this.parentElement.remove())
+  })
+  newLi.appendChild(deleteCommentBtn); 
+  commentList.appendChild(newLi); 
 }
