@@ -29,12 +29,6 @@ function renderImageData(url){
     imageName.innerText = returnedImage.name; 
     imageLikes.innerText = returnedImage.like_count;
     returnedImage.comments.forEach(function(comment){
-      // const newLi = document.createElement('li'); 
-      // newLi.innerText = comment.content; 
-      // const deleteCommentBtn = document.createElement('button'); 
-      // deleteCommentBtn.innerText = "Delete"; 
-
-      // commentList.appendChild(newLi); 
       renderComment(comment); 
     })
   })
@@ -72,11 +66,22 @@ function commentSubmit(){
   submitBox.addEventListener('click',function(e){
     e.preventDefault(); 
     const commentBox = document.querySelector("#comment_input"); 
-    const commentList = document.querySelector("#comments"); 
-    const commentLi = document.createElement('li'); 
-    commentLi.innerText = commentBox.value; 
-    commentList.appendChild(commentLi); 
+
+    /* the following was commented out to redo comments with pessimistic rendering 
+    instead of optimistic. I did this because, even though I could use 
+    optimistic rendering by rendering the comment and its delete box to the page, then 
+    making the post request, then at the end of that (using a .then) finding the delete
+    button and appending the comment's id to that delete key's dataset.id, that would be 
+    a lot of useless code. 
     
+    I hope what I did works well enough and my implementation passes! 
+    */
+
+    // const commentList = document.querySelector("#comments"); 
+    // const commentLi = document.createElement('li'); 
+    // commentLi.innerText = commentBox.value; 
+    // commentList.appendChild(commentLi); 
+
     // step 5: persist comment 
     let objectData = {
       image_id: imageId,
@@ -91,13 +96,16 @@ function commentSubmit(){
       body: JSON.stringify(objectData),
     })
     .then((response) => response.json())
+    .then(function(comment){
+      renderComment(comment); 
+    })
     // clear comment box for next comment 
     commentBox.value = ""
   })
 }
 
 function renderComment(comment){
-  debugger
+  // debugger
   const commentList = document.querySelector("#comments"); 
   const newLi = document.createElement('li'); 
   newLi.innerText = comment.content; 
