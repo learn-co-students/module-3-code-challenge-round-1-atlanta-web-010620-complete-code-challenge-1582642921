@@ -1,13 +1,14 @@
+// moved these to the global scope so everything can access them 
 let imageId = 4637 //Enter the id from the fetched image here
+const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
+const likeURL = `https://randopic.herokuapp.com/likes/`
+const commentsURL = `https://randopic.herokuapp.com/comments/`
+
+
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
-
-
-  const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
-
-  const likeURL = `https://randopic.herokuapp.com/likes/`
-
-  const commentsURL = `https://randopic.herokuapp.com/comments/`
+  
+  
   renderImageData(imageURL);  
   increaseLike();
   commentSubmit();
@@ -38,18 +39,17 @@ function renderImageData(url){
 function increaseLike(){
   const likeButton = document.querySelector("#like_button"); 
   likeButton.addEventListener('click',function(e){
+    // step 2: like feature front end 
     let imageLikes = document.querySelector("#likes");
     let imageLikesCount = parseInt(imageLikes.innerText); 
     imageLikesCount+=1; 
     imageLikes.innerText = imageLikesCount
     
-    // step 3: persist like on backend 
-    const data = { username: 'example' };
+    // step 3: persist likes on backend 
     let objectData = {
       image_id: imageId
     }
-
-    fetch('https://randopic.herokuapp.com/likes', {
+    fetch(likeURL, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -57,20 +57,13 @@ function increaseLike(){
       },
       body: JSON.stringify(objectData),
     })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Success:', data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+    .then((response) => response.json()); 
   })
 }
 
 function commentSubmit(){
   // step 4: comment frontend 
   const submitBox = document.querySelector("#comment_form").children[1]; 
-  
   submitBox.addEventListener('click',function(e){
     e.preventDefault(); 
     const commentBox = document.querySelector("#comment_input"); 
@@ -84,7 +77,7 @@ function commentSubmit(){
       image_id: imageId,
       content: commentBox.value
     }
-    fetch('https://randopic.herokuapp.com/comments', {
+    fetch(commentsURL, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -93,13 +86,6 @@ function commentSubmit(){
       body: JSON.stringify(objectData),
     })
     .then((response) => response.json())
-    .then((data) => {
-      console.log('Success:', data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-    
     // clear comment box for next comment 
     commentBox.value = ""
   })
