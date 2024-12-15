@@ -88,10 +88,10 @@ Example Response:
 
 Use the data from the API response to change what's currently on the page (take a look at the already provided `index.html`). You will need to add/update:
 
-- the image url
-- the image name
-- the number of likes
-- any comments in an unordered list
+<!-- - the image url -->
+<!-- - the image name -->
+<!-- - the number of likes -->
+<!-- - any comments in an unordered list -->
 
 (If you cannot get your fetch request to work correctly, you can  use the example response above to append content to the DOM and attempt the subsequent steps)
 
@@ -163,7 +163,7 @@ As before, we need to persist the comment to the database, after optimistically 
 Similarly to before, this POST request's body should include the your assigned `imageId`. Remember associations? A `comment` `belongs_to` an `image`, so we need to send the `image_id` that the comment should be associated with:
 
 ```js
-POST 'https://randopic.herokuapp.com/comments'
+POST 'https://randopic.herokuapp.com/comments'_
 
 Required keys in the body of the request:
 {
